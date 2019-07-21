@@ -1,0 +1,16 @@
+.markdown-editor{
+  width: 50%;
+  height: 100%;
+}
+.markdown-editor .CodeMirror{
+  height: 100%;
+  width: 100%;
+  max-width: 101%;
+  border-right: 1px solid rgba(102, 102, 102, 0.466);
+  font-size: 1rem;
+  resize: horizontal
+}
+.markdown-editor .CodeMirror-lines{
+  font-size: 15px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
