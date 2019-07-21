@@ -1,0 +1,34 @@
+header{
+  background: #444;
+  box-shadow: 0 2px 5px #666
+}
+.container-header{
+  display: flex;
+  max-width: 1160px;
+  margin: 0 auto;
+  color: #f8f8f8;
+  height: 60px;
+  align-items: center;
+  justify-content: space-between
+}
+.container-header h1{
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-style: italic; 
+  flex: 1
+}
+.container-header .text-saving{
+  flex: 1;
+}
+.container-header .text-saving p{
+  font-style: italic;
+  background: #666;
+  font-size: 17px;
+  text-align: center;
+  padding: 5px;
+  width: 90px;
+}
+.container-header .icone-menu{
+  font-size: 25px;
+  cursor: pointer;
+}
