@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import cm from 'codemirror'
 import marked from 'marked'
-import { savingChange } from '../../reducers/ui/actionsCreators'
+import { v4 } from 'uuid'
+import { savingChange, modalToggle, menuToggle, listFilesToggle } from '../../reducers/ui/actionsCreators'
+import { newFile, editFile, deleteFile } from '../../reducers/files/actionsCreators'
+import Modalinput from '../../components/ModalInput'
 import Markdown from '../../components/Markdown'
 import MarkdownOutput from '../../components/MarkdownOutput'
+import ListFiles from '../../components/ListFiles'
 import './styles.css'
 import 'highlight.js/styles/dracula.css'
-
 import('highlight.js').then(hljs => {
   marked.setOptions({
     highlight: (code, lang) => {
@@ -19,44 +21,125 @@ import('highlight.js').then(hljs => {
   })
 })
 
-const Home = ({ changeMarkdown, savingChange }) => {
-  const textareaRef = React.createRef()
+const Home = ({
+  deleteFile,
+  savingChange,
+  modalToggle,
+  ui,
+  newFile,
+  menuToggle,
+  filesLength,
+  listFilesToggle,
+  editFile,
+  files
+}) => {
   const [textMarkdownOut, setTextMarkdown] = useState('')
+  const [, setTimer] = useState(0)
   const [temp, setIsSaving] = useState(false)
+  const [file, setFile] = useState({})
+  const [load, setLoad] = useState(true)
 
   useEffect(() => {
-    cm.fromTextArea(textareaRef.current, {
-      lineNumbers: true,
-      mode: 'markdown',
-      autofocus: true,
-      lineWrapping: true,
-    }).on('change', (e) => {
+    if (filesLength === 0) {
+      modalToggle(true)
+    } else {
+      if (load) {
+        const ids = Object.keys(files)
+        setFile({ id: ids[ids.length - 1], text: files[ids[ids.length - 1]].text })
+        setTextMarkdown(files[ids[ids.length - 1]].text)
+        modalToggle(false)
+        setLoad(false)
+      }
+    }
+    interval()
+  }, [filesLength, textMarkdownOut])
+
+  const onChangeCodeMirror = (e) => {
+    e.on('change', (e) => {
+      setFile({ ...file, text: e.getValue() })
+      editFile(file.id, e.getValue())
       setIsSaving(true)
       setTextMarkdown(e.getValue())
       savingChange(true, e.getValue().length)
     })
-  }, [])
+  }
+
+  const newNameFile = (e) => {
+    e.preventDefault()
+    const { nameFile } = e.target
+    if (nameFile.value) {
+      let id = v4()
+      setFile({ id, text: '' })
+      newFile({
+        id,
+        nameFile: nameFile.value,
+        text: ''
+      })
+      setTextMarkdown('')
+      menuToggle(false)
+      modalToggle(false)
+    }
+  }
+
   const handleSaving = () => {
+    clearInterval(setTimer(0))
     if (temp) {
       savingChange(false)
     }
   }
-  setTimeout(handleSaving, 1000)
+  const interval = () => setTimer(setTimeout(handleSaving, 1000))
 
-  const markdownToHtml = () => {
-    return { __html: marked(textMarkdownOut) }
+  const markdownToHtml = () => ({ __html: marked(textMarkdownOut) })
+
+  const renderMarkdown = (file) => {
+    if (file.hasOwnProperty('id')) {
+      return (
+        <>
+          {ui.containersView.markIn && <Markdown
+            file={file}
+            listFilesToggle={listFilesToggle}
+            onChangeCodeMirror={onChangeCodeMirror} />}
+
+        </>
+      )
+    }
   }
-
   return (
     <div className='markdown-container'>
-      <Markdown
-        onChange={changeMarkdown}
-        refTextarea={textareaRef} />
-      <MarkdownOutput
-        textMarkdownOut={markdownToHtml}
+      <ListFiles
+        isListFileOpen={ui.isListFileOpen}
+        listFilesToggle={listFilesToggle}
+        files={files}
+        setFile={setFile}
+        setTextMarkdown={setTextMarkdown}
+        deleteFile={deleteFile}
       />
+      {ui.isModalOpen &&
+        <Modalinput
+          newNameFile={newNameFile}
+          filesLength={filesLength}
+          modalToggle={modalToggle} />}
+      {renderMarkdown(file)}
+      {ui.containersView.markOut && <MarkdownOutput
+        textMarkdownOut={markdownToHtml}
+      />}
     </div>
   )
 }
 
-export default connect(null, { savingChange })(Home)
+const mapStateToProps = state => ({
+  ui: state.ui,
+  filesLength: Object.keys(state.files).length,
+  files: state.files
+})
+
+export default connect(mapStateToProps,
+  {
+    deleteFile,
+    savingChange,
+    modalToggle,
+    newFile,
+    menuToggle,
+    listFilesToggle,
+    editFile
+  })(Home)
