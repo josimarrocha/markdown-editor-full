@@ -15,7 +15,7 @@ header{
   text-transform: uppercase;
   letter-spacing: 1.5px;
   font-style: italic; 
-  flex: 1
+  flex: 2
 }
 .container-header .text-saving{
   flex: 1;
@@ -27,6 +27,67 @@ header{
   text-align: center;
   padding: 5px;
   width: 90px;
+}
+.container-header .toggle-containers{
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.container-header .markIn::after, .container-header .markOut::after{
+  content: '';
+  width: 40px;
+  display: inline-block;
+  height: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  position: absolute;
+  left: 5px;
+  top: 3px;
+}
+.container-header .markIn::after{
+  background: #f8f8f8;
+}
+.container-header .markOut::after{
+  background: #f8f8f8;
+}
+.container-header .markIn, .container-header .markOut{
+  width: 50px;
+  position: relative;
+  height: 26px;
+  border-radius: 5px;
+}
+.container-header .markIn{
+  margin-right: 10px;
+}
+.container-header .markOut{
+  margin-left: 10px;
+}
+.container-header .active{
+  background: rgb(111, 194, 72);
+}
+
+.container-header .both{
+  cursor: pointer;
+  width: 56px;
+  padding: 3px;
+  height: 26px;
+  border-radius: 5px;
+}
+.container-header .both::before, .container-header .both::after{
+  content: '';
+  width: 25px;
+  display: inline-block;
+  height: 19px;
+}
+.container-header .both::before{
+  background: #f8f8f8;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.container-header .both::after{
+  background: rgb(123, 124, 124);
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 .container-header .icone-menu{
   font-size: 25px;
