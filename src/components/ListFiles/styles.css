@@ -1,0 +1,50 @@
+.container-list-files{
+  position: absolute;
+  width: 400px;
+  height: 100vh;
+  background: #333;
+  right: 0;
+  top: 0;
+  transition: transform 300ms linear;
+  transform: translateX(100%);
+  z-index: 1
+
+}
+.container-list-files.active{
+  transform: translateX(0%)
+}
+.container-list-files .close-list{
+  font-size: 25px;
+  color: #f8f8f8;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+.container-list-files .list-files{
+  margin-top: 30px;
+}
+.container-list-files h3{
+  color: #ecac44;
+  text-align: center;
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+
+.list-files-content .list-files li{
+  color: #f8f8f8;
+  padding: 10px 30px 10px 20px;
+  border-bottom: 1px solid #666;
+  display: flex;
+  justify-content: space-between;
+}
+.list-files-content .actions i{
+  cursor: pointer;
+}
+.list-files-content .actions i:first-child{
+  margin-right: 30px;
+}
+
+.list-files-content .list-files li:hover{
+  background: rgba(102, 102, 102, 0.315);
+}
