@@ -6,6 +6,7 @@ nav{
   right: 0;
   transform: translateX(100%);
   transition: transform 300ms linear;
+  z-index: 1;
 }
 nav.menuActive{
   transform: translateX(0%)
