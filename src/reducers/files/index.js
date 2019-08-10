@@ -1,26 +1,39 @@
 import { NEW_FILE, LOADING_FILES_STORAGE, EDIT_FILE, DELETE_FILE } from './actionsCreators'
 
-const initialState = {}
+const initialState = {
+  currentEditFile: {},
+  files: {}
+}
 
 const file = (state = initialState, action) => {
   switch (action.type) {
     case NEW_FILE:
       const newFile = {
         ...state,
-        [action.payload.id]: {
-          ...action.payload
+        files: {
+          ...state.files,
+          [action.payload.id]: {
+            ...action.payload
+          }
+        },
+        currentEditFile: {
+          [action.payload.id]: {
+            ...action.payload
+          }
         }
       }
-      localStorage.setItem('@markdown', JSON.stringify({ ...newFile }))
+      localStorage.setItem('@markdown', JSON.stringify({ ...newFile.files }))
       return {
         ...newFile
       }
 
     case DELETE_FILE:
-      const { [action.payload]: id, ...files } = state
+      const { [action.payload]: id, ...files } = state.files
       return {
-        ...files
-
+        ...state,
+        files: {
+          ...files
+        }
       }
 
     case EDIT_FILE:
@@ -30,26 +43,46 @@ const file = (state = initialState, action) => {
         file = action.payload.files[ids[ids.length - 1]]
         return {
           ...state,
-          [file.id]: {
-            ...file
+          files: {
+            ...state.files,
+            [file.id]: {
+              ...file
+            }
+          },
+          currentEditFile: {
+            [file.id]: {
+              ...file
+            }
           }
         }
       }
       const editFile = {
         ...state,
-        [action.payload.id]: {
-          ...state[action.payload.id],
-          text: action.payload.text
+        files: {
+          ...state.files,
+          [action.payload.id]: {
+            ...state.files[action.payload.id],
+            text: action.payload.text
+          }
+        },
+        currentEditFile: {
+          [action.payload.id]: {
+            ...state.files[action.payload.id],
+            text: action.payload.text,
+          }
         }
       }
-      localStorage.setItem('@markdown', JSON.stringify({ ...editFile }))
+      localStorage.setItem('@markdown', JSON.stringify({ ...editFile.files }))
       return {
         ...editFile
       }
 
     case LOADING_FILES_STORAGE:
       return {
-        ...action.payload
+        ...state,
+        files: {
+          ...action.payload
+        }
       }
 
     default:
