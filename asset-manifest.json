@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/markdown-editor-full/static/css/main.744e39d3.chunk.css",
+    "main.js": "/markdown-editor-full/static/js/main.70c72bd1.chunk.js",
+    "main.js.map": "/markdown-editor-full/static/js/main.70c72bd1.chunk.js.map",
+    "runtime~main.js": "/markdown-editor-full/static/js/runtime~main.c0bdf500.js",
+    "runtime~main.js.map": "/markdown-editor-full/static/js/runtime~main.c0bdf500.js.map",
+    "static/js/2.1496184f.chunk.js": "/markdown-editor-full/static/js/2.1496184f.chunk.js",
+    "static/js/2.1496184f.chunk.js.map": "/markdown-editor-full/static/js/2.1496184f.chunk.js.map",
+    "static/css/3.130bb9e9.chunk.css": "/markdown-editor-full/static/css/3.130bb9e9.chunk.css",
+    "static/js/3.bf5ec07c.chunk.js": "/markdown-editor-full/static/js/3.bf5ec07c.chunk.js",
+    "static/js/3.bf5ec07c.chunk.js.map": "/markdown-editor-full/static/js/3.bf5ec07c.chunk.js.map",
+    "index.html": "/markdown-editor-full/index.html",
+    "precache-manifest.a89925081d2064fdc89696c6ef2c744a.js": "/markdown-editor-full/precache-manifest.a89925081d2064fdc89696c6ef2c744a.js",
+    "service-worker.js": "/markdown-editor-full/service-worker.js",
+    "static/css/3.130bb9e9.chunk.css.map": "/markdown-editor-full/static/css/3.130bb9e9.chunk.css.map",
+    "static/css/main.744e39d3.chunk.css.map": "/markdown-editor-full/static/css/main.744e39d3.chunk.css.map"
+  }
+}
