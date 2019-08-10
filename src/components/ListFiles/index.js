@@ -1,19 +1,36 @@
 import React from 'react'
 import './styles.css'
 
-const ListFiles = ({ isListFileOpen, listFilesToggle, files, setFile, setTextMarkdown, deleteFile }) => {
+const ListFiles = ({
+  isListFileOpen,
+  listFilesToggle,
+  files,
+  setFile,
+  setTextMarkdown,
+  deleteFile,
+  editFile,
+  currentEditFile
+}) => {
   const handleEditFile = (id) => {
     setFile({
       id: files[id].id,
       nameFile: files[id].nameFile,
       text: files[id].text
     })
+    editFile(files[id].id, files[id].text)
     setTextMarkdown(files[id].text)
+  }
+
+  const colorFileSelected = id => {
+    if (currentEditFile.hasOwnProperty(id)) {
+      return '#e29313'
+    }
   }
 
   const handleDeletFile = (id) => {
     deleteFile(id)
   }
+
   return (
     <div className={`container-list-files ${isListFileOpen && 'active'}`}>
       <div className="close-list" onClick={() => listFilesToggle()}>
@@ -24,7 +41,7 @@ const ListFiles = ({ isListFileOpen, listFilesToggle, files, setFile, setTextMar
         <ul className='list-files'>
           {Object.keys(files).map(file => (
             <li key={files[file].id}>
-              <span>{files[file].nameFile}</span>
+              <span style={{ color: colorFileSelected(files[file].id) }}>{files[file].nameFile}</span>
               <div className="actions">
                 <i className="fas fa-edit" onClick={() => handleEditFile(files[file].id)}></i>
                 <i className="fas fa-trash" onClick={() => handleDeletFile(files[file].id)}></i>
