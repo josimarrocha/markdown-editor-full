@@ -15,10 +15,14 @@ header{
   text-transform: uppercase;
   letter-spacing: 1.5px;
   font-style: italic; 
-  flex: 2
+  width: 350px
 }
 .container-header .text-saving{
-  flex: 1;
+  flex: 0;
+}
+
+.container-header .doanload-icone{
+  cursor: pointer;
 }
 .container-header .text-saving p{
   font-style: italic;
@@ -29,7 +33,7 @@ header{
   width: 90px;
 }
 .container-header .toggle-containers{
-  flex: 1;
+  flex: 0;
   display: flex;
   align-items: center;
 }
