@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Route } from 'react-router-dom'
+import Home from './pages/Home'
 import { connect } from 'react-redux'
 import { loadingFilesStorage } from './reducers/files/actionsCreators'
-import Routes from './routes'
 import Header from './components/Header'
 import Menu from './components/Menu'
 
@@ -11,13 +10,13 @@ function App({ loadingFilesStorage }) {
     loadingFilesStorage()
   }, [])
   return (
-    <Route>
+    <>
       <Header />
       <div className="content">
         <Menu />
-        <Routes />
+        <Home />
       </div>
-    </Route>
+    </>
   );
 }
 
