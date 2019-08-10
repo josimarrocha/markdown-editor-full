@@ -8,6 +8,7 @@ import Modalinput from '../../components/ModalInput'
 import Markdown from '../../components/Markdown'
 import MarkdownOutput from '../../components/MarkdownOutput'
 import ListFiles from '../../components/ListFiles'
+import 'normalize.css'
 import './styles.css'
 import 'highlight.js/styles/dracula.css'
 import('highlight.js').then(hljs => {
@@ -31,7 +32,7 @@ const Home = ({
   filesLength,
   listFilesToggle,
   editFile,
-  files
+  files: { files, currentEditFile }
 }) => {
   const [textMarkdownOut, setTextMarkdown] = useState('')
   const [, setTimer] = useState(0)
@@ -71,9 +72,7 @@ const Home = ({
       let id = v4()
       setFile({ id, text: '' })
       newFile({
-        id,
-        nameFile: nameFile.value,
-        text: ''
+        id, nameFile: nameFile.value, text: ''
       })
       setTextMarkdown('')
       menuToggle(false)
@@ -113,6 +112,8 @@ const Home = ({
         setFile={setFile}
         setTextMarkdown={setTextMarkdown}
         deleteFile={deleteFile}
+        editFile={editFile}
+        currentEditFile={currentEditFile}
       />
       {ui.isModalOpen &&
         <Modalinput
@@ -129,7 +130,7 @@ const Home = ({
 
 const mapStateToProps = state => ({
   ui: state.ui,
-  filesLength: Object.keys(state.files).length,
+  filesLength: Object.keys(state.files.files).length,
   files: state.files
 })
 
