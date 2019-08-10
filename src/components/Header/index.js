@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
+import { saveAs } from 'file-saver'
 import { menuToggle, viewsContainerToggle } from '../../reducers/ui/actionsCreators'
 import './styles.css'
 
-const Header = ({ menuToggle, ui, viewsContainerToggle }) => {
-  const [isChangeMarkdown, setIsChangeMarkdown] = useState(false)
+const Header = ({ menuToggle, ui, viewsContainerToggle, currentFile }) => {
+  const [, setIsChangeMarkdown] = useState(false)
+  const [file, setFile] = useState('')
   const [views, setVisibleViews] = useState({
     markIn: null,
     markOut: null
@@ -14,14 +16,35 @@ const Header = ({ menuToggle, ui, viewsContainerToggle }) => {
     if (ui.lengthMarkdown > 0) {
       setIsChangeMarkdown(true)
     }
-  }, [ui])
+    const currentEditFile = () => {
+      const idFile = Object.keys(currentFile)[0]
+      if (idFile === undefined) return false
+      setFile({
+        name: currentFile[idFile].nameFile,
+        text: currentFile[idFile].text
+      })
+    }
+    currentEditFile()
+  }, [ui, currentFile])
+
+  const saveFileHd = () => {
+    const blob = new Blob([file.text], { type: "text/plain;charset=utf-8" })
+    saveAs(blob, file.name + '.md')
+  }
+
   return (
     <header>
       <div className="container-header">
         <h1>Markdown Editor</h1>
-        {isChangeMarkdown && <div className="text-saving">
+        <div className="text-saving">
           <p>{ui.isSaving ? 'Salvando...' : 'Salvo!'}</p>
-        </div>}
+        </div>
+        <p style={{ fontWeight: 500 }}>Nome do arquivo: {
+          file.name
+        }</p>
+        <div className="doanload-icone" onClick={saveFileHd}>
+          <i className="fas fa-download"></i>
+        </div>
         <div className="toggle-containers">
           <span
             className={`${views.markIn && !views.markOut ? 'markIn active' : 'markIn'}`}
@@ -41,7 +64,8 @@ const Header = ({ menuToggle, ui, viewsContainerToggle }) => {
   )
 }
 const mapStateToProps = state => ({
-  ui: state.ui
+  ui: state.ui,
+  currentFile: state.files.currentEditFile
 })
 
 export default connect(mapStateToProps, { menuToggle, viewsContainerToggle })(Header)
